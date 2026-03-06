@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!--
+  CUSTOMER SUPPORT TICKET SYSTEM
+  Built by: Sneh Desai
+  -----------------------------------------------
+  FILE 2 of 6: dashboard.html
+  Customer view — submit tickets and track status
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SupportDesk | My Tickets</title>
+  <link rel="stylesheet" href="ticket_style.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-brand">🎫 SupportDesk</div>
+    <div class="nav-right">
+      <span class="nav-user">👤 <span id="nav-username"></span></span>
+      <span class="nav-badge customer-badge">Customer</span>
+      <button class="logout-btn" onclick="logout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div>
+        <h1>My Support Tickets</h1>
+        <p>Submit a new ticket or track your existing requests</p>
+      </div>
+      <button class="primary-btn" onclick="toggleForm()">➕ New Ticket</button>
+    </div>
+
+    <!-- SUMMARY CARDS -->
+    <div class="summary">
+      <div class="card stat-card">
+        <div class="stat-icon">🎫</div>
+        <div class="stat-info">
+          <div class="stat-number" id="c-total">0</div>
+          <div class="stat-label">Total Tickets</div>
+        </div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-icon">🔴</div>
+        <div class="stat-info">
+          <div class="stat-number open-color" id="c-open">0</div>
+          <div class="stat-label">Open</div>
+        </div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-icon">🟡</div>
+        <div class="stat-info">
+          <div class="stat-number progress-color" id="c-progress">0</div>
+          <div class="stat-label">In Progress</div>
+        </div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-icon">🟢</div>
+        <div class="stat-info">
+          <div class="stat-number resolved-color" id="c-resolved">0</div>
+          <div class="stat-label">Resolved</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBMIT TICKET FORM (hidden by default) -->
+    <div class="card form-card" id="ticket-form" style="display:none;">
+      <h2>📝 Submit New Ticket</h2>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Subject</label>
+          <input type="text" id="t-subject" placeholder="Brief description of your issue" maxlength="100"/>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="t-category">
+            <option value="Internet">🌐 Internet Issue</option>
+            <option value="Phone">📞 Phone Service</option>
+            <option value="TV">📺 TV / Cable</option>
+            <option value="Billing">💳 Billing</option>
+            <option value="Technical">🔧 Technical Support</option>
+            <option value="Account">👤 Account Management</option>
+            <option value="Other">📋 Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Priority</label>
+          <select id="t-priority">
+            <option value="Low">🟢 Low</option>
+            <option value="Medium" selected>🟡 Medium</option>
+            <option value="High">🔴 High</option>
+            <option value="Critical">🚨 Critical</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Phone Number (optional)</label>
+          <input type="text" id="t-phone" placeholder="e.g. 306-xxx-xxxx"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="t-description" placeholder="Please describe your issue in detail..." rows="4"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button class="primary-btn" onclick="submitTicket()">Submit Ticket</button>
+        <button class="secondary-btn" onclick="toggleForm()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- TICKET LIST -->
+    <div class="card">
+      <div class="list-header">
+        <h2>📋 My Tickets</h2>
+        <div class="filter-row">
+          <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+          <button class="filter-btn" onclick="setFilter('Open', this)">Open</button>
+          <button class="filter-btn" onclick="setFilter('In Progress', this)">In Progress</button>
+          <button class="filter-btn" onclick="setFilter('Resolved', this)">Resolved</button>
+        </div>
+      </div>
+      <div id="ticket-list"></div>
+    </div>
+
+  </div>
+
+  <!-- TICKET DETAIL MODAL -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+    <div class="modal large-modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="modal-subject"></h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <div class="flash" id="flash"></div>
+
+  <script src="ticket_app.js"></script>
+  <script> initDashboard(); </script>
+</body>
+</html>
